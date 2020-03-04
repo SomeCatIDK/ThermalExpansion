@@ -495,7 +495,7 @@ public class SmelterManager {
 		addRecipe(energy, input, ItemMaterial.crystalSlagRich, ingot3, ItemMaterial.crystalSlag, slagChance);
 
 		if (!secondary.isEmpty()) {
-			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, secondary, 100, 0);
+			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, secondary, 100);
 		} else {
 			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, ItemMaterial.crystalSlagRich, 75);
 		}
