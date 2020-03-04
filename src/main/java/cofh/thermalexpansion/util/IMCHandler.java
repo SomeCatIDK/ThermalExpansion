@@ -44,7 +44,13 @@ public class IMCHandler {
 						SawmillManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
 						continue;
 					case ADD_SMELTER_RECIPE:
-						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
+						int requiredTier = 0;
+						
+						if (nbt.hasKey(REQUIRED_TIER)) {
+							requiredTier = nbt.getInteger(REQUIRED_TIER);
+						}
+						
+						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), requiredTier);
 						continue;
 					case ADD_INSOLATOR_RECIPE:
 						InsolatorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
@@ -225,7 +231,8 @@ public class IMCHandler {
 	static final String REVERSIBLE = "reversible";
 	static final String CHANCE = "chance";
 	static final String FACTOR = "factor";
-
+	static final String REQUIRED_TIER = "requiredtier";
+	
 	static final String INPUT = "input";
 	static final String OUTPUT = "output";
 	static final String INPUT_2 = "input2";
