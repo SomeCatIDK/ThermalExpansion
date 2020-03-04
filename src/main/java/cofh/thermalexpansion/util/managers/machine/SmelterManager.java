@@ -379,12 +379,12 @@ public class SmelterManager {
 	}
 
 	/* ADD RECIPES */
-	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int requiredTier) {
 
 		if (primaryInput.isEmpty() || secondaryInput.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || recipeExists(primaryInput, secondaryInput)) {
 			return null;
 		}
-		SmelterRecipe recipe = new SmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy);
+		SmelterRecipe recipe = new SmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, 0);
 		recipeMap.put(asList(convertInput(primaryInput), convertInput(secondaryInput)), recipe);
 		validationSet.add(convertInput(primaryInput));
 		validationSet.add(convertInput(secondaryInput));
@@ -393,12 +393,12 @@ public class SmelterManager {
 
 	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput) {
 
-		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, 100);
+		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, 100, 0);
 	}
 
 	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput) {
 
-		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, ItemStack.EMPTY, 0);
+		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, ItemStack.EMPTY, 0, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -486,19 +486,19 @@ public class SmelterManager {
 		ItemStack ingot2 = ItemHelper.cloneStack(output, oreMultiplier);
 		ItemStack ingot3 = ItemHelper.cloneStack(output, oreMultiplierSpecial);
 
-		addRecipe(energy, input, BLOCK_SAND, ingot2, ItemMaterial.crystalSlagRich, richSlagChance);
-		addRecipe(energy, input, ItemMaterial.crystalSlagRich, ingot3, ItemMaterial.crystalSlag, slagChance);
+		addRecipe(energy, input, BLOCK_SAND, ingot2, ItemMaterial.crystalSlagRich, richSlagChance, 0);
+		addRecipe(energy, input, ItemMaterial.crystalSlagRich, ingot3, ItemMaterial.crystalSlag, slagChance, 0);
 
 		if (!secondary.isEmpty()) {
-			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, secondary, 100);
+			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, secondary, 100, 0);
 		} else {
-			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, ItemMaterial.crystalSlagRich, 75);
+			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, ItemMaterial.crystalSlagRich, 75, 0);
 		}
 	}
 
 	private static void addBasicRecipe(int energy, ItemStack input, ItemStack output, int slagChance) {
 
-		addRecipe(energy, input, BLOCK_SAND, output, ItemMaterial.crystalSlag, slagChance);
+		addRecipe(energy, input, BLOCK_SAND, output, ItemMaterial.crystalSlag, slagChance, 0);
 	}
 
 	public static void addRecycleRecipe(int energy, ItemStack input, ItemStack output, int outputSize) {
@@ -532,8 +532,9 @@ public class SmelterManager {
 		final int secondaryChance;
 		final int energy;
 		final boolean hasFlux;
+		final int requiredTier;
 
-		SmelterRecipe(ItemStack secondaryInput, ItemStack primaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy) {
+		SmelterRecipe(ItemStack secondaryInput, ItemStack primaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy, int requiredTier) {
 
 			if (isItemFlux(primaryInput) && !isItemFlux(secondaryInput)) {
 				this.primaryInput = secondaryInput;
@@ -547,6 +548,7 @@ public class SmelterManager {
 			this.secondaryChance = secondaryChance;
 			this.energy = energy;
 			this.hasFlux = isItemFlux(secondaryInput) || isItemFlux(primaryInput);
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getPrimaryInput() {
@@ -582,6 +584,10 @@ public class SmelterManager {
 		public boolean hasFlux() {
 
 			return hasFlux;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

@@ -44,7 +44,7 @@ public class IMCHandler {
 						SawmillManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
 						continue;
 					case ADD_SMELTER_RECIPE:
-						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
+						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), 0);
 						continue;
 					case ADD_INSOLATOR_RECIPE:
 						InsolatorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
