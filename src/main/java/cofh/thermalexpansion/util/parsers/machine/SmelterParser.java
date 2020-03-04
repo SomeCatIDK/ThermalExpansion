@@ -30,6 +30,7 @@ public class SmelterParser extends BaseParser {
 			ItemStack output2 = ItemStack.EMPTY;
 			int energy = defaultEnergy;
 			int chance = 100;
+			int requiredTier = 0;
 
 			/* INPUT */
 			input = parseItemStack(content.get(INPUT));
@@ -56,8 +57,12 @@ public class SmelterParser extends BaseParser {
 			} else if (content.has(ENERGY_MOD)) {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
+			
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
 
-			if (SmelterManager.addRecipe(energy, input, input2, output, output2, chance) != null) {
+			if (SmelterManager.addRecipe(energy, input, input2, output, output2, chance, requiredTier) != null) {
 				parseCount++;
 			} else {
 				errorCount++;

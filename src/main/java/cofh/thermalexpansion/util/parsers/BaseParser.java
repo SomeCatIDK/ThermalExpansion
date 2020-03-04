@@ -46,6 +46,8 @@ public abstract class BaseParser implements IContentParser {
 	public static final String COUNT = "count";
 	public static final String AMOUNT = "amount";
 	public static final String NBT = "nbt";
+	
+	public static final String REQUIRED_TIER = "required_tier";
 
 	protected int parseCount = 0;
 	protected int errorCount = 0;
