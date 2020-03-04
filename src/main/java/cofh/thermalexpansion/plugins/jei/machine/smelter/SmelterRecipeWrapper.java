@@ -33,7 +33,8 @@ public class SmelterRecipeWrapper extends BaseRecipeWrapper {
 	protected List<ItemStack> outputs;
 
 	protected int chance;
-
+	protected String requiredTier;
+	
 	/* Animation */
 	protected IDrawableAnimated fluid;
 	protected IDrawableAnimated progress;
@@ -91,6 +92,7 @@ public class SmelterRecipeWrapper extends BaseRecipeWrapper {
 		outputs = recipeOutputs;
 
 		chance = recipe.getSecondaryOutputChance();
+		requiredTier = String.valueOf(recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_ARROW_FLUID);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(uId.equals(RecipeUidsTE.SMELTER_PYROTHEUM) ? Drawables.PROGRESS_ARROW_FLUID : Drawables.PROGRESS_ARROW);
@@ -128,6 +130,8 @@ public class SmelterRecipeWrapper extends BaseRecipeWrapper {
 			String dispChance = StringHelper.formatNumber(chance) + "%";
 			minecraft.fontRenderer.drawString(dispChance, 102 - 6 * dispChance.length(), 48, 0x808080);
 		}
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 69 - 6 * (6 + requiredTier.length()), 52, 0x808080);
 	}
 
 }
