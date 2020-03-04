@@ -92,7 +92,7 @@ public class SmelterRecipeWrapper extends BaseRecipeWrapper {
 		outputs = recipeOutputs;
 
 		chance = recipe.getSecondaryOutputChance();
-		requiredTier = String.valueOf(recipe.getRequiredTier());
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_ARROW_FLUID);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(uId.equals(RecipeUidsTE.SMELTER_PYROTHEUM) ? Drawables.PROGRESS_ARROW_FLUID : Drawables.PROGRESS_ARROW);
@@ -131,7 +131,7 @@ public class SmelterRecipeWrapper extends BaseRecipeWrapper {
 			minecraft.fontRenderer.drawString(dispChance, 102 - 6 * dispChance.length(), 48, 0x808080);
 		}
 		
-		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 69 - 6 * (6 + requiredTier.length()), 52, 0x808080);
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 20, 3, 0x808080);
 	}
 
 }
