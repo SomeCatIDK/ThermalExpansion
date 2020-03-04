@@ -384,7 +384,8 @@ public class SmelterManager {
 		if (primaryInput.isEmpty() || secondaryInput.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || recipeExists(primaryInput, secondaryInput)) {
 			return null;
 		}
-		SmelterRecipe recipe = new SmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, 0);
+		
+		SmelterRecipe recipe = new SmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, requiredTier);
 		recipeMap.put(asList(convertInput(primaryInput), convertInput(secondaryInput)), recipe);
 		validationSet.add(convertInput(primaryInput));
 		validationSet.add(convertInput(secondaryInput));

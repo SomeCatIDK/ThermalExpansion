@@ -204,7 +204,7 @@ public class TileSmelter extends TileMachineBase {
 
 		curRecipe = SmelterManager.getRecipe(inventory[1], inventory[0]);
 		
-		if (curRecipe.getRequiredTier() > level) {
+		if (curRecipe != null && curRecipe.getRequiredTier() > level) {
 			curRecipe = null;
 		}
 	}
