@@ -595,5 +595,4 @@ public class SmelterManager {
 			return requiredTier;
 		}
 	}
-
 }
