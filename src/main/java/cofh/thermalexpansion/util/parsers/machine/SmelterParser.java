@@ -57,7 +57,7 @@ public class SmelterParser extends BaseParser {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
 
-			if (SmelterManager.addRecipe(energy, input, input2, output, output2, chance, 0) != null) {
+			if (SmelterManager.addRecipe(energy, input, input2, output, output2, chance) != null) {
 				parseCount++;
 			} else {
 				errorCount++;

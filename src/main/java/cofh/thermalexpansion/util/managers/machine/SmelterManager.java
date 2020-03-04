@@ -391,15 +391,19 @@ public class SmelterManager {
 		validationSet.add(convertInput(secondaryInput));
 		return recipe;
 	}
+	
+	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryChance, 0);
+	}
 
 	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput) {
 
-		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, 100, 0);
+		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, 100);
 	}
 
 	public static SmelterRecipe addRecipe(int energy, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput) {
 
-		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, ItemStack.EMPTY, 0, 0);
+		return addRecipe(energy, primaryInput, secondaryInput, primaryOutput, ItemStack.EMPTY, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -487,19 +491,19 @@ public class SmelterManager {
 		ItemStack ingot2 = ItemHelper.cloneStack(output, oreMultiplier);
 		ItemStack ingot3 = ItemHelper.cloneStack(output, oreMultiplierSpecial);
 
-		addRecipe(energy, input, BLOCK_SAND, ingot2, ItemMaterial.crystalSlagRich, richSlagChance, 0);
-		addRecipe(energy, input, ItemMaterial.crystalSlagRich, ingot3, ItemMaterial.crystalSlag, slagChance, 0);
+		addRecipe(energy, input, BLOCK_SAND, ingot2, ItemMaterial.crystalSlagRich, richSlagChance);
+		addRecipe(energy, input, ItemMaterial.crystalSlagRich, ingot3, ItemMaterial.crystalSlag, slagChance);
 
 		if (!secondary.isEmpty()) {
 			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, secondary, 100, 0);
 		} else {
-			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, ItemMaterial.crystalSlagRich, 75, 0);
+			addRecipe(energy, input, ItemMaterial.crystalCinnabar, ingot3, ItemMaterial.crystalSlagRich, 75);
 		}
 	}
 
 	private static void addBasicRecipe(int energy, ItemStack input, ItemStack output, int slagChance) {
 
-		addRecipe(energy, input, BLOCK_SAND, output, ItemMaterial.crystalSlag, slagChance, 0);
+		addRecipe(energy, input, BLOCK_SAND, output, ItemMaterial.crystalSlag, slagChance);
 	}
 
 	public static void addRecycleRecipe(int energy, ItemStack input, ItemStack output, int outputSize) {
