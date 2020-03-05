@@ -1,6 +1,7 @@
 package cofh.thermalexpansion.plugins.jei.machine.centrifuge;
 
 import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileBrewer;
 import cofh.thermalexpansion.block.machine.TileCentrifuge;
 import cofh.thermalexpansion.plugins.jei.Drawables;
@@ -31,6 +32,7 @@ public class CentrifugeRecipeWrapper extends BaseRecipeWrapper {
 	protected List<FluidStack> outputFluids;
 
 	protected List<Integer> chance;
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated progress;
@@ -67,6 +69,8 @@ public class CentrifugeRecipeWrapper extends BaseRecipeWrapper {
 		chance = recipe.getChance();
 		energy = recipe.getEnergy();
 
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
+		
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(Drawables.PROGRESS_ARROW);
 		IDrawableStatic speedDrawable = Drawables.getDrawables(guiHelper).getScaleFill(Drawables.SCALE_SPIN);
 		IDrawableStatic energyDrawable = Drawables.getDrawables(guiHelper).getEnergyFill();
@@ -92,6 +96,8 @@ public class CentrifugeRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 62, 23);
 		speed.draw(minecraft, 34, 32);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 20, 3, 0x808080);
 	}
 
 }

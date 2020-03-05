@@ -200,12 +200,22 @@ public class CentrifugeManager {
 	}
 
 	/* ADD RECIPES */
+	public static CentrifugeRecipe addRecipe(int energy, ItemStack input, List<ItemStack> output, List<Integer> chance, FluidStack fluid, int requiredTier) {
+
+		if (input.isEmpty() || (output.isEmpty() && fluid == null) || output.size() > 4 || energy <= 0 || recipeExists(input)) {
+			return null;
+		}
+		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, chance, fluid, energy, requiredTier);
+		recipeMap.put(convertInput(input), recipe);
+		return recipe;
+	}
+	
 	public static CentrifugeRecipe addRecipe(int energy, ItemStack input, List<ItemStack> output, List<Integer> chance, FluidStack fluid) {
 
 		if (input.isEmpty() || (output.isEmpty() && fluid == null) || output.size() > 4 || energy <= 0 || recipeExists(input)) {
 			return null;
 		}
-		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, chance, fluid, energy);
+		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, chance, fluid, energy, 0);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
 	}
@@ -215,7 +225,7 @@ public class CentrifugeManager {
 		if (input.isEmpty() || (output.isEmpty() && fluid == null) || output.size() > 4 || energy <= 0 || recipeExists(input)) {
 			return null;
 		}
-		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, null, fluid, energy);
+		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, null, fluid, energy, 0);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
 	}
@@ -225,7 +235,7 @@ public class CentrifugeManager {
 		if (input.isEmpty() || (output.isEmpty() && fluid == null) || output.size() > 4 || energy <= 0 || recipeExistsMob(input)) {
 			return null;
 		}
-		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, chance, fluid, energy);
+		CentrifugeRecipe recipe = new CentrifugeRecipe(input, output, chance, fluid, energy, 0);
 		recipeMapMobs.put(convertInput(input), recipe);
 		return recipe;
 	}
@@ -276,8 +286,9 @@ public class CentrifugeManager {
 		protected List<Integer> chance;
 		protected FluidStack fluid;
 		protected int energy;
+		protected int requiredTier;
 
-		CentrifugeRecipe(ItemStack input, @Nullable List<ItemStack> output, @Nullable List<Integer> chance, @Nullable FluidStack fluid, int energy) {
+		CentrifugeRecipe(ItemStack input, @Nullable List<ItemStack> output, @Nullable List<Integer> chance, @Nullable FluidStack fluid, int energy, int requiredTier) {
 
 			this.input = input;
 			this.output = new ArrayList<>();
@@ -294,6 +305,7 @@ public class CentrifugeManager {
 			}
 			this.fluid = fluid;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -319,6 +331,10 @@ public class CentrifugeManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

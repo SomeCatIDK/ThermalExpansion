@@ -31,6 +31,7 @@ public class CentrifugeParser extends BaseParser {
 			ArrayList<Integer> chance = new ArrayList<>();
 			FluidStack fluid = null;
 			int energy = defaultEnergy;
+			int requiredTier = 0;
 
 			/* INPUT */
 			input = parseItemStack(content.get(INPUT));
@@ -74,8 +75,13 @@ public class CentrifugeParser extends BaseParser {
 			} else if (content.has(ENERGY_MOD)) {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
+			
+			/* REQUIRED TIER */
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
 
-			if (CentrifugeManager.addRecipe(energy, input, output, chance, fluid) != null) {
+			if (CentrifugeManager.addRecipe(energy, input, output, chance, fluid, requiredTier) != null) {
 				parseCount++;
 			} else {
 				errorCount++;

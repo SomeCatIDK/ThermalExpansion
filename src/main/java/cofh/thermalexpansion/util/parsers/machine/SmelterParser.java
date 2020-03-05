@@ -58,6 +58,7 @@ public class SmelterParser extends BaseParser {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
 			
+			/* REQUIRED TIER */
 			if (content.has(REQUIRED_TIER)) {
 				requiredTier = content.get(REQUIRED_TIER).getAsInt();
 			}

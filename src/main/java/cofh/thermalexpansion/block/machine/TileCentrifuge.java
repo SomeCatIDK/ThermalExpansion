@@ -161,6 +161,10 @@ public class TileCentrifuge extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = augmentMobs ? CentrifugeManager.getRecipeMob(inventory[0]) : CentrifugeManager.getRecipe(inventory[0]);
+		
+		if (curRecipe != null && curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override
