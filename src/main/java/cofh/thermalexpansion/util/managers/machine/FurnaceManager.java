@@ -137,24 +137,32 @@ public class FurnaceManager {
 	}
 
 	/* ADD RECIPES */
-	public static FurnaceRecipe addRecipe(int energy, ItemStack input, ItemStack output) {
+	public static FurnaceRecipe addRecipe(int energy, ItemStack input, ItemStack output, int requiredTier) {
 
 		if (input.isEmpty() || output.isEmpty() || energy <= 0 || recipeExists(input, false)) {
 			return null;
 		}
-		FurnaceRecipe recipe = new FurnaceRecipe(input, output, energy);
+		FurnaceRecipe recipe = new FurnaceRecipe(input, output, energy, requiredTier);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
 	}
+	
+	public static FurnaceRecipe addRecipe(int energy, ItemStack input, ItemStack output) {
+		return addRecipe(energy, input, output, 0);
+	}
 
-	public static FurnaceRecipe addRecipePyrolysis(int energy, ItemStack input, ItemStack output, int creosote) {
+	public static FurnaceRecipe addRecipePyrolysis(int energy, ItemStack input, ItemStack output, int creosote, int requiredTier) {
 
 		if (input.isEmpty() || output.isEmpty() || energy <= 0 || recipeExists(input, true)) {
 			return null;
 		}
-		FurnaceRecipe recipe = new FurnaceRecipe(input, output, energy, creosote);
+		FurnaceRecipe recipe = new FurnaceRecipe(input, output, energy, creosote, requiredTier);
 		recipeMapPyrolysis.put(convertInput(input), recipe);
 		return recipe;
+	}
+	
+	public static FurnaceRecipe addRecipePyrolysis(int energy, ItemStack input, ItemStack output, int creosote) {
+		return addRecipePyrolysis(energy, input, output, creosote, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -200,18 +208,20 @@ public class FurnaceManager {
 		final ItemStack output;
 		final int energy;
 		final int creosote;
+		final int requiredTier;
 
-		FurnaceRecipe(ItemStack input, ItemStack output, int energy) {
+		FurnaceRecipe(ItemStack input, ItemStack output, int energy, int requiredTier) {
 
-			this(input, output, energy, 0);
+			this(input, output, energy, 0, requiredTier);
 		}
-
-		FurnaceRecipe(ItemStack input, ItemStack output, int energy, int creosote) {
+		
+		FurnaceRecipe(ItemStack input, ItemStack output, int energy, int creosote, int requiredTier) {
 
 			this.input = input;
 			this.output = output;
 			this.energy = energy;
 			this.creosote = creosote;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -232,6 +242,10 @@ public class FurnaceManager {
 		public int getCreosote() {
 
 			return creosote;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

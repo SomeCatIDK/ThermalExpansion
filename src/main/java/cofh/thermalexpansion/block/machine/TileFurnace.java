@@ -173,6 +173,10 @@ public class TileFurnace extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = FurnaceManager.getRecipe(inventory[0], augmentPyrolysis);
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override

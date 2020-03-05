@@ -1,6 +1,7 @@
 package cofh.thermalexpansion.plugins.jei.machine.furnace;
 
 import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileBrewer;
 import cofh.thermalexpansion.block.machine.TileFurnace;
 import cofh.thermalexpansion.plugins.jei.Drawables;
@@ -32,6 +33,7 @@ public class FurnaceRecipeWrapper extends BaseRecipeWrapper {
 	protected List<List<ItemStack>> inputs;
 	protected List<ItemStack> outputs;
 	protected List<FluidStack> outputFluids;
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -80,6 +82,7 @@ public class FurnaceRecipeWrapper extends BaseRecipeWrapper {
 		}
 		inputs = singletonList(recipeInputs);
 		outputs = recipeOutputs;
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_ARROW_FLUID);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(uId.equals(RecipeUidsTE.FURNACE_PYROLYSIS) ? Drawables.PROGRESS_ARROW_FLUID : Drawables.PROGRESS_ARROW);
@@ -112,6 +115,8 @@ public class FurnaceRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 69, 23);
 		speed.draw(minecraft, 43, 33);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 30, 3, 0x808080);
 	}
 
 }

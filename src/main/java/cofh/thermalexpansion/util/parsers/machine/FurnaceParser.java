@@ -30,6 +30,7 @@ public class FurnaceParser extends BaseParser {
 			ItemStack output;
 			int creosote;
 			int energy = defaultEnergy;
+			int requiredTier = 0;
 
 			/* INPUT */
 			input = parseItemStack(content.get(INPUT));
@@ -57,16 +58,21 @@ public class FurnaceParser extends BaseParser {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
 
+			/* REQUIRED TIER*/
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
+			
 			/* CREOSOTE */
 			if (content.has(CREOSOTE)) {
 				creosote = content.get(CREOSOTE).getAsInt();
-				if (FurnaceManager.addRecipePyrolysis(energy, input, output, creosote) != null) {
+				if (FurnaceManager.addRecipePyrolysis(energy, input, output, creosote, requiredTier) != null) {
 					parseCount++;
 				} else {
 					errorCount++;
 				}
 			} else {
-				if (FurnaceManager.addRecipe(energy, input, output) != null) {
+				if (FurnaceManager.addRecipe(energy, input, output, requiredTier) != null) {
 					parseCount++;
 				} else {
 					errorCount++;

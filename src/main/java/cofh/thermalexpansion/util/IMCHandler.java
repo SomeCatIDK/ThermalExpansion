@@ -40,7 +40,7 @@ public class IMCHandler {
 				switch (operation) {
 					/* ADD RECIPES */
 					case ADD_FURNACE_RECIPE:
-						FurnaceManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT));
+						FurnaceManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), requiredTier);
 						continue;
 					case ADD_PULVERIZER_RECIPE:
 						PulverizerManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), requiredTier);
