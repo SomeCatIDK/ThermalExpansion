@@ -106,6 +106,9 @@ public class TileCompactor extends TileMachineBase {
 		if (recipe == null) {
 			return false;
 		}
+		if (recipe.getRequiredTier() > level) {
+			return false;
+		}
 		if (inventory[0].getCount() < recipe.getInput().getCount()) {
 			return false;
 		}

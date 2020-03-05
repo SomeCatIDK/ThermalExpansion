@@ -150,12 +150,12 @@ public class CompactorManager {
 	}
 
 	/* ADD RECIPES */
-	public static CompactorRecipe addRecipe(int energy, ItemStack input, ItemStack output, Mode mode) {
+	public static CompactorRecipe addRecipe(int energy, ItemStack input, ItemStack output, Mode mode, int requiredTier) {
 
 		if (input.isEmpty() || output.isEmpty() || energy <= 0 || recipeExists(input, mode)) {
 			return null;
 		}
-		CompactorRecipe recipe = new CompactorRecipe(input, output, energy);
+		CompactorRecipe recipe = new CompactorRecipe(input, output, energy, requiredTier);
 
 		switch (mode) {
 			case ALL:
@@ -173,6 +173,10 @@ public class CompactorManager {
 		}
 		validationSet.add(new ComparableItemStackValidatedNBT(input));
 		return recipe;
+	}
+	
+	public static CompactorRecipe addRecipe(int energy, ItemStack input, ItemStack output, Mode mode) {
+		return addRecipe(energy, input, output, mode, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -264,12 +268,14 @@ public class CompactorManager {
 		final ItemStack input;
 		final ItemStack output;
 		final int energy;
+		final int requiredTier;
 
-		CompactorRecipe(ItemStack input, ItemStack output, int energy) {
+		CompactorRecipe(ItemStack input, ItemStack output, int energy, int requiredTier) {
 
 			this.input = input;
 			this.output = output;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -285,6 +291,10 @@ public class CompactorManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

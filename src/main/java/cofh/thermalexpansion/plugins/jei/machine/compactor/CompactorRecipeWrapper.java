@@ -1,6 +1,7 @@
 package cofh.thermalexpansion.plugins.jei.machine.compactor;
 
 import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileBrewer;
 import cofh.thermalexpansion.block.machine.TileCompactor;
 import cofh.thermalexpansion.plugins.jei.Drawables;
@@ -26,7 +27,8 @@ public class CompactorRecipeWrapper extends BaseRecipeWrapper {
 	/* Recipe */
 	protected List<List<ItemStack>> inputs;
 	protected List<ItemStack> outputs;
-
+	protected String requiredTier;
+	
 	/* Animation */
 	protected IDrawableAnimated progress;
 	protected IDrawableAnimated speed;
@@ -52,6 +54,7 @@ public class CompactorRecipeWrapper extends BaseRecipeWrapper {
 		outputs = recipeOutputs;
 
 		energy = recipe.getEnergy();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(Drawables.PROGRESS_ARROW);
 		IDrawableStatic speedDrawable = Drawables.getDrawables(guiHelper).getScaleFill(Drawables.SCALE_COMPACT);
@@ -77,6 +80,8 @@ public class CompactorRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 69, 23);
 		speed.draw(minecraft, 43, 33);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 30, 3, 0x808080);
 	}
 
 }

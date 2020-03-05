@@ -33,6 +33,7 @@ public class CompactorParser extends BaseParser {
 			ItemStack input;
 			ItemStack output;
 			int energy = defaultEnergy;
+			int requiredTier = 0;
 			Mode mode = Mode.ALL;
 
 			/* INPUT */
@@ -71,8 +72,13 @@ public class CompactorParser extends BaseParser {
 			} else if (content.has(ENERGY_MOD)) {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
+			
+			/* REQUIRED TIER */
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
 
-			if (CompactorManager.addRecipe(energy, input, output, mode) != null) {
+			if (CompactorManager.addRecipe(energy, input, output, mode, requiredTier) != null) {
 				parseCount++;
 			} else {
 				errorCount++;

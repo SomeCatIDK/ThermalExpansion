@@ -55,16 +55,16 @@ public class IMCHandler {
 						InsolatorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
 						continue;
 					case ADD_COMPACTOR_RECIPE:
-						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.ALL);
+						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.ALL, requiredTier);
 						continue;
 					case ADD_COMPACTOR_PLATE_RECIPE:
-						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.PLATE);
+						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.PLATE, requiredTier);
 						continue;
 					case ADD_COMPACTOR_COIN_RECIPE:
-						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.COIN);
+						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.COIN, requiredTier);
 						continue;
 					case ADD_COMPACTOR_GEAR_RECIPE:
-						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.GEAR);
+						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.GEAR, requiredTier);
 						continue;
 					case ADD_CRUCIBLE_RECIPE:
 						CrucibleManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)));
