@@ -93,6 +93,7 @@ public class TileExtruder extends TileMachineBase implements ICustomInventory {
 	private ItemStack[] outputItem = new ItemStack[2];
 	private int outputTracker;
 	private int index = 0;
+	private int lastIndex = 0;
 	private byte direction = 0;
 
 	private FluidTankCore hotTank = new FluidTankCore(TEProps.MAX_FLUID_SMALL);
@@ -152,6 +153,9 @@ public class TileExtruder extends TileMachineBase implements ICustomInventory {
 			return true;
 		}
 		if (!inventory[0].isItemEqual(outputItem[0])) {
+			return false;
+		}
+		if (recipe.getRequiredTier() > level) {
 			return false;
 		}
 		return inventory[0].getCount() + outputItem[0].getCount() <= outputItem[0].getMaxStackSize();
@@ -249,15 +253,39 @@ public class TileExtruder extends TileMachineBase implements ICustomInventory {
 		hasAutoInput = false;
 		enableAutoInput = false;
 	}
+	
+	int numberOfAttempts = 0;
 
 	private void setOutput() {
 
+		if (numberOfAttempts > ExtruderManager.getRecipeList(augmentSedimentary).length) {
+			// THIS TIER HAS NO RECIPES, THIS SHOULD NOT HAPPEN!
+			ThermalExpansion.LOG.error("There are no available recipes for one of the extruder tiers!");
+			return;
+		}
+		
 		if (index >= ExtruderManager.getOutputListSize(augmentSedimentary)) {
 			index = 0;
 		} else if (index < 0) {
 			index = ExtruderManager.getOutputListSize(augmentSedimentary) - 1;
 		}
+		
 		outputItem[0] = ExtruderManager.getOutput(index, augmentSedimentary);
+		
+		ExtruderRecipe recipe = ExtruderManager.getRecipeByOutput(outputItem[0], augmentSedimentary);
+		
+		if (recipe != null && recipe.getRequiredTier() > level) {
+			if (lastIndex < index) {
+				index++;
+			}else {
+				index--;
+			}
+			numberOfAttempts++;
+			setOutput();
+		}
+		
+		numberOfAttempts = 0;
+		
 		if (!isActive) {
 			outputItem[1] = outputItem[0].copy();
 		}

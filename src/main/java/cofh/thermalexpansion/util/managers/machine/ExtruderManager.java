@@ -10,9 +10,11 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class ExtruderManager {
 
@@ -29,6 +31,34 @@ public class ExtruderManager {
 			return null;
 		}
 		return sedimentary ? recipeMapSedimentary.get(new ItemWrapper(input)) : recipeMapIgneous.get(new ItemWrapper(input));
+	}
+	
+	public static ExtruderRecipe getRecipeByOutput(ItemStack output, boolean sedimentary) {
+		if (output.isEmpty()) {
+			return null;
+		}
+		
+		if (sedimentary) {
+			Iterator<Entry<ItemWrapper, ExtruderRecipe>> entrySet = recipeMapSedimentary.entrySet().iterator();
+			while(entrySet.hasNext()) {
+				Entry<ItemWrapper, ExtruderRecipe> recipe = entrySet.next();
+				
+				if (recipe.getValue().output.equals(output)) {
+					return recipe.getValue();
+				}
+			}
+		} else {
+			Iterator<Entry<ItemWrapper, ExtruderRecipe>> entrySet = recipeMapIgneous.entrySet().iterator();
+			while(entrySet.hasNext()) {
+				Entry<ItemWrapper, ExtruderRecipe> recipe = entrySet.next();
+				
+				if (recipe.getValue().output.equals(output)) {
+					return recipe.getValue();
+				}
+			}
+		}
+		
+		return null;
 	}
 
 	public static boolean recipeExists(ItemStack input, boolean sedimentary) {
@@ -64,7 +94,7 @@ public class ExtruderManager {
 		// Default to first if no match found.
 		return 0;
 	}
-
+	
 	public static ExtruderRecipe[] getRecipeList(boolean sedimentary) {
 
 		if (sedimentary) {
@@ -121,26 +151,34 @@ public class ExtruderManager {
 	}
 
 	/* ADD RECIPES */
-	public static ExtruderRecipe addRecipeIgneous(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold) {
+	public static ExtruderRecipe addRecipeIgneous(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold, int requiredTier) {
 
 		if (output.isEmpty() || inputHot == null || inputCold == null || energy <= 0 || recipeExists(output, false)) {
 			return null;
 		}
-		ExtruderRecipe recipe = new ExtruderRecipe(output, inputHot, inputCold, energy);
+		ExtruderRecipe recipe = new ExtruderRecipe(output, inputHot, inputCold, energy, requiredTier);
 		recipeMapIgneous.put(new ItemWrapper(output), recipe);
 		outputListIgneous.add(output);
 		return recipe;
 	}
+	
+	public static ExtruderRecipe addRecipeIgneous(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold) {
+		return addRecipeIgneous(energy, output, inputHot, inputCold, 0);
+	}
 
-	public static ExtruderRecipe addRecipeSedimentary(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold) {
+	public static ExtruderRecipe addRecipeSedimentary(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold, int requiredTier) {
 
 		if (output.isEmpty() || inputHot == null || inputCold == null || energy <= 0 || recipeExists(output, true)) {
 			return null;
 		}
-		ExtruderRecipe recipe = new ExtruderRecipe(output, inputHot, inputCold, energy);
+		ExtruderRecipe recipe = new ExtruderRecipe(output, inputHot, inputCold, energy, requiredTier);
 		recipeMapSedimentary.put(new ItemWrapper(output), recipe);
 		outputListSedimentary.add(output);
 		return recipe;
+	}
+	
+	public static ExtruderRecipe addRecipeSedimentary(int energy, ItemStack output, FluidStack inputHot, FluidStack inputCold) {
+		return addRecipeSedimentary(energy, output, inputHot, inputCold, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -156,13 +194,15 @@ public class ExtruderManager {
 		final FluidStack inputHot;
 		final FluidStack inputCold;
 		final int energy;
+		final int requiredTier;
 
-		ExtruderRecipe(ItemStack output, FluidStack inputHot, FluidStack inputCold, int energy) {
+		ExtruderRecipe(ItemStack output, FluidStack inputHot, FluidStack inputCold, int energy, int requiredTier) {
 
 			this.inputHot = inputHot;
 			this.inputCold = inputCold;
 			this.output = output;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getOutput() {
@@ -183,6 +223,10 @@ public class ExtruderManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 
