@@ -35,6 +35,7 @@ public class PulverizerRecipeWrapper extends BaseRecipeWrapper {
 	protected List<ItemStack> outputs;
 
 	protected int chance;
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -79,6 +80,7 @@ public class PulverizerRecipeWrapper extends BaseRecipeWrapper {
 		outputs = recipeOutputs;
 
 		chance = recipe.getSecondaryOutputChance();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_ARROW_FLUID);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(uId.equals(RecipeUidsTE.PULVERIZER_PETROTHEUM) ? Drawables.PROGRESS_ARROW_FLUID : Drawables.PROGRESS_ARROW);
@@ -116,6 +118,8 @@ public class PulverizerRecipeWrapper extends BaseRecipeWrapper {
 			String dispChance = StringHelper.formatNumber(chance) + "%";
 			minecraft.fontRenderer.drawString(dispChance, 102 - 6 * dispChance.length(), 48, 0x808080);
 		}
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 28, 3, 0x808080);
 	}
 
 }

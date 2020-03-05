@@ -149,14 +149,19 @@ public class PulverizerManager {
 	}
 
 	/* ADD RECIPES */
-	public static PulverizerRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+	public static PulverizerRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int requriedTier) {
 
 		if (input.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || recipeExists(input)) {
 			return null;
 		}
-		PulverizerRecipe recipe = new PulverizerRecipe(input, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy);
+		PulverizerRecipe recipe = new PulverizerRecipe(input, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, requriedTier);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
+	}
+	
+	public static PulverizerRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+
+		return addRecipe(energy, input, primaryOutput, secondaryOutput, secondaryChance, 0);
 	}
 
 	public static PulverizerRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput) {
@@ -245,14 +250,16 @@ public class PulverizerManager {
 		final ItemStack secondaryOutput;
 		final int secondaryChance;
 		final int energy;
+		final int requiredTier;
 
-		PulverizerRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy) {
+		PulverizerRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy, int requiredTier) {
 
 			this.input = input;
 			this.primaryOutput = primaryOutput;
 			this.secondaryOutput = secondaryOutput;
 			this.secondaryChance = secondaryChance;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -278,6 +285,10 @@ public class PulverizerManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

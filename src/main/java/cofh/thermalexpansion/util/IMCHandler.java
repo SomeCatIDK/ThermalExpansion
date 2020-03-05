@@ -33,6 +33,9 @@ public class IMCHandler {
 				String operation = message.key.toLowerCase(Locale.US);
 				
 				int requiredTier = 0;
+				if (nbt.hasKey(REQUIRED_TIER)) {
+					requiredTier = nbt.getInteger(REQUIRED_TIER);
+				}
 
 				switch (operation) {
 					/* ADD RECIPES */
@@ -40,16 +43,12 @@ public class IMCHandler {
 						FurnaceManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT));
 						continue;
 					case ADD_PULVERIZER_RECIPE:
-						PulverizerManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
+						PulverizerManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), requiredTier);
 						continue;
 					case ADD_SAWMILL_RECIPE:
 						SawmillManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
 						continue;
 					case ADD_SMELTER_RECIPE:
-						if (nbt.hasKey(REQUIRED_TIER)) {
-							requiredTier = nbt.getInteger(REQUIRED_TIER);
-						}
-						
 						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), requiredTier);
 						continue;
 					case ADD_INSOLATOR_RECIPE:
@@ -101,9 +100,6 @@ public class IMCHandler {
 						}
 						if (nbt.hasKey(FLUID)) {
 							fluid = FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(FLUID));
-						}
-						if (nbt.hasKey(REQUIRED_TIER)) {
-							requiredTier = nbt.getInteger(REQUIRED_TIER);
 						}
 						CentrifugeManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), output, chance, fluid, requiredTier);
 						continue;
