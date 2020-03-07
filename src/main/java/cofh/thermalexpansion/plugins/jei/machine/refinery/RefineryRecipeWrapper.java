@@ -28,6 +28,7 @@ public class RefineryRecipeWrapper extends BaseRecipeWrapper {
 	protected List<ItemStack> outputItems;
 
 	protected int chance;
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -62,6 +63,7 @@ public class RefineryRecipeWrapper extends BaseRecipeWrapper {
 
 		energy = recipe.getEnergy();
 		chance = recipe.getChance();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_DROP);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(Drawables.PROGRESS_DROP);
@@ -92,6 +94,8 @@ public class RefineryRecipeWrapper extends BaseRecipeWrapper {
 		fluid.draw(minecraft, 69, 23);
 		progress.draw(minecraft, 69, 23);
 		speed.draw(minecraft, 34, 40);
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 54, 3, 0x808080);
+
 		energyMeter.draw(minecraft, 2, 8);
 
 		if (chance > 0) {

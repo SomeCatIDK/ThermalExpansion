@@ -105,7 +105,7 @@ public class RefineryManager {
 	}
 
 	/* ADD RECIPES */
-	public static RefineryRecipe addRecipe(int energy, FluidStack input, FluidStack outputFluid, ItemStack outputItem, int chance) {
+	public static RefineryRecipe addRecipe(int energy, FluidStack input, FluidStack outputFluid, ItemStack outputItem, int chance, int requiredTier) {
 
 		if (input == null || outputFluid == null || energy <= 0 || recipeExists(input)) {
 			return null;
@@ -113,9 +113,13 @@ public class RefineryManager {
 		if (outputItem.isEmpty()) {
 			chance = 0;
 		}
-		RefineryRecipe recipe = new RefineryRecipe(input, outputFluid, outputItem, energy, chance);
+		RefineryRecipe recipe = new RefineryRecipe(input, outputFluid, outputItem, energy, chance, requiredTier);
 		recipeMap.put(FluidHelper.getFluidHash(input), recipe);
 		return recipe;
+	}
+	
+	public static RefineryRecipe addRecipe(int energy, FluidStack input, FluidStack outputFluid, ItemStack outputItem, int chance) {
+		return addRecipe(energy, input, outputFluid, outputItem, chance, 0);
 	}
 
 	public static RefineryRecipe addRecipe(int energy, FluidStack input, FluidStack outputFluid, ItemStack outputItem) {
@@ -128,14 +132,18 @@ public class RefineryManager {
 		return addRecipe(energy, input, outputFluid, ItemStack.EMPTY, 0);
 	}
 
-	public static RefineryRecipe addRecipePotion(int energy, FluidStack input, FluidStack outputFluid) {
+	public static RefineryRecipe addRecipePotion(int energy, FluidStack input, FluidStack outputFluid, int requiredTier) {
 
 		if (input == null || outputFluid == null || energy <= 0 || recipeExistsPotion(input)) {
 			return null;
 		}
-		RefineryRecipe recipe = new RefineryRecipe(input, outputFluid, ItemStack.EMPTY, energy, 0);
+		RefineryRecipe recipe = new RefineryRecipe(input, outputFluid, ItemStack.EMPTY, energy, 0, requiredTier);
 		recipeMapPotion.put(FluidHelper.getFluidHash(input), recipe);
 		return recipe;
+	}
+	
+	public static RefineryRecipe addRecipePotion(int energy, FluidStack input, FluidStack outputFluid) {
+		return addRecipePotion(energy, input, outputFluid, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -237,14 +245,16 @@ public class RefineryManager {
 		final ItemStack outputItem;
 		final int energy;
 		final int chance;
+		final int requiredTier;
 
-		RefineryRecipe(FluidStack input, FluidStack outputFluid, ItemStack outputItem, int energy, int chance) {
+		RefineryRecipe(FluidStack input, FluidStack outputFluid, ItemStack outputItem, int energy, int chance, int requiredTier) {
 
 			this.input = input;
 			this.outputFluid = outputFluid;
 			this.outputItem = outputItem;
 			this.energy = energy;
 			this.chance = chance;
+			this.requiredTier = requiredTier;
 		}
 
 		public FluidStack getInput() {
@@ -270,6 +280,10 @@ public class RefineryManager {
 		public int getChance() {
 
 			return chance;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 
 	}

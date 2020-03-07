@@ -179,8 +179,12 @@ public class TileRefinery extends TileMachineBase {
 
 	@Override
 	protected void getRecipe() {
-
+		
 		curRecipe = augmentPotion ? RefineryManager.getRecipePotion(inputTank.getFluid()) : RefineryManager.getRecipe(inputTank.getFluid());
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override
