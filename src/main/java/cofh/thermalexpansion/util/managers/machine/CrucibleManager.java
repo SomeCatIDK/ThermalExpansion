@@ -65,20 +65,24 @@ public class CrucibleManager {
 	}
 
 	/* ADD RECIPES */
-	public static CrucibleRecipe addRecipe(int energy, ItemStack input, FluidStack output) {
+	public static CrucibleRecipe addRecipe(int energy, ItemStack input, FluidStack output, int requiredTier) {
 
 		if (input.isEmpty() || output == null || output.amount <= 0 || energy <= 0 || recipeExists(input)) {
 			return null;
 		}
 		ComparableItemStackValidatedNBT inputCrucible = new ComparableItemStackValidatedNBT(input);
 
-		CrucibleRecipe recipe = new CrucibleRecipe(input, output, energy);
+		CrucibleRecipe recipe = new CrucibleRecipe(input, output, energy, requiredTier);
 		recipeMap.put(inputCrucible, recipe);
 
 		if (FluidRegistry.LAVA.equals(output.getFluid())) {
 			lavaSet.add(inputCrucible);
 		}
 		return recipe;
+	}
+	
+	public static CrucibleRecipe addRecipe(int energy, ItemStack input, FluidStack output) {
+		return addRecipe(energy, input, output, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -101,12 +105,14 @@ public class CrucibleManager {
 		final ItemStack input;
 		final FluidStack output;
 		final int energy;
+		final int requiredTier;
 
-		CrucibleRecipe(ItemStack input, FluidStack output, int energy) {
+		CrucibleRecipe(ItemStack input, FluidStack output, int energy, int requiredTier) {
 
 			this.input = input;
 			this.output = output;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -122,6 +128,10 @@ public class CrucibleManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

@@ -67,7 +67,7 @@ public class IMCHandler {
 						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.GEAR, requiredTier);
 						continue;
 					case ADD_CRUCIBLE_RECIPE:
-						CrucibleManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)));
+						CrucibleManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)), requiredTier);
 						continue;
 					case ADD_REFINERY_RECIPE:
 						RefineryManager.addRecipe(nbt.getInteger(ENERGY), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(INPUT)), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)), getItemStack(nbt, OUTPUT_2), requiredTier);

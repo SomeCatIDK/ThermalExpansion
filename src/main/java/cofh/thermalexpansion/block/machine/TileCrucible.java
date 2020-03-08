@@ -176,6 +176,10 @@ public class TileCrucible extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = CrucibleManager.getRecipe(inventory[0]);
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package cofh.thermalexpansion.plugins.jei.machine.crucible;
 
 import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileCrucible;
 import cofh.thermalexpansion.plugins.jei.Drawables;
 import cofh.thermalexpansion.plugins.jei.JEIPluginTE;
@@ -28,6 +29,8 @@ public class CrucibleRecipeWrapper extends BaseRecipeWrapper {
 	/* Recipe */
 	protected List<List<ItemStack>> inputs;
 	protected List<FluidStack> outputFluids;
+	
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -60,6 +63,7 @@ public class CrucibleRecipeWrapper extends BaseRecipeWrapper {
 		outputFluids = recipeOutputFluids;
 
 		energy = recipe.getEnergy();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_DROP);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(Drawables.PROGRESS_DROP);
@@ -96,6 +100,8 @@ public class CrucibleRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 69, 23);
 		speed.draw(minecraft, 43, 33);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 30, 3, 0x808080);
 	}
 
 }

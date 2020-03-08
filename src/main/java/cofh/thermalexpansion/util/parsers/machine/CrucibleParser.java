@@ -27,6 +27,7 @@ public class CrucibleParser extends BaseParser {
 			ItemStack input;
 			FluidStack output;
 			int energy = defaultEnergy;
+			int requiredTier = 0;
 
 			/* INPUT */
 			input = parseItemStack(content.get(INPUT));
@@ -46,8 +47,13 @@ public class CrucibleParser extends BaseParser {
 			} else if (content.has(ENERGY_MOD)) {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
+			
+			/* REQUIRED TIER*/
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
 
-			if (CrucibleManager.addRecipe(energy, input, output) != null) {
+			if (CrucibleManager.addRecipe(energy, input, output, requiredTier) != null) {
 				parseCount++;
 			} else {
 				errorCount++;
