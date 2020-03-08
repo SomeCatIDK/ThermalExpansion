@@ -52,7 +52,7 @@ public class IMCHandler {
 						SmelterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), requiredTier);
 						continue;
 					case ADD_INSOLATOR_RECIPE:
-						InsolatorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE));
+						InsolatorManager.addRecipe(nbt.getInteger(ENERGY), nbt.getInteger(ENERGY) / 4, getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), getItemStack(nbt, OUTPUT_2), nbt.getInteger(CHANCE), InsolatorManager.Type.STANDARD, requiredTier);
 						continue;
 					case ADD_COMPACTOR_RECIPE:
 						CompactorManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, OUTPUT), Mode.ALL, requiredTier);

@@ -33,6 +33,7 @@ public class InsolatorRecipeWrapper extends BaseRecipeWrapper {
 	protected List<ItemStack> outputs;
 
 	protected int chance;
+	protected String requiredTier;
 
 	protected Type type;
 
@@ -87,6 +88,7 @@ public class InsolatorRecipeWrapper extends BaseRecipeWrapper {
 
 		energy = recipe.getEnergy();
 		chance = recipe.getSecondaryOutputChance();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		type = recipe.getType();
 
@@ -125,6 +127,8 @@ public class InsolatorRecipeWrapper extends BaseRecipeWrapper {
 			String dispChance = StringHelper.formatNumber(chance) + "%";
 			minecraft.fontRenderer.drawString(dispChance, 102 - 6 * dispChance.length(), 48, 0x808080);
 		}
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 20, 3, 0x808080);
 	}
 
 }

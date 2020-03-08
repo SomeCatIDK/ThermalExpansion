@@ -192,6 +192,10 @@ public class TileInsolator extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = InsolatorManager.getRecipe(inventory[1], inventory[0]);
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override

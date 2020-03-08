@@ -221,16 +221,20 @@ public class InsolatorManager {
 	}
 
 	/* ADD RECIPES */
-	public static InsolatorRecipe addRecipe(int energy, int water, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, Type type) {
+	public static InsolatorRecipe addRecipe(int energy, int water, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, Type type, int requiredTier) {
 
 		if (primaryInput.isEmpty() || secondaryInput.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || water <= 0 || recipeExists(primaryInput, secondaryInput)) {
 			return null;
 		}
-		InsolatorRecipe recipe = new InsolatorRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, water, type);
+		InsolatorRecipe recipe = new InsolatorRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, water, type, requiredTier);
 		recipeMap.put(asList(convertInput(primaryInput), convertInput(secondaryInput)), recipe);
 		validationSet.add(convertInput(primaryInput));
 		validationSet.add(convertInput(secondaryInput));
 		return recipe;
+	}
+	
+	public static InsolatorRecipe addRecipe(int energy, int water, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, Type type) {
+		return addRecipe(energy, water, primaryInput, secondaryInput, primaryOutput, secondaryOutput, secondaryChance, type, 0);
 	}
 
 	public static InsolatorRecipe addRecipe(int energy, int water, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
@@ -376,8 +380,9 @@ public class InsolatorManager {
 		final int water;
 		final boolean hasFertilizer;
 		final Type type;
+		final int requiredTier;
 
-		InsolatorRecipe(ItemStack secondaryInput, ItemStack primaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy, int water, Type type) {
+		InsolatorRecipe(ItemStack secondaryInput, ItemStack primaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy, int water, Type type, int requiredTier) {
 
 			if (isItemFertilizer(primaryInput) && !isItemFertilizer(secondaryInput)) {
 				this.primaryInput = secondaryInput;
@@ -393,6 +398,7 @@ public class InsolatorManager {
 			this.water = water;
 			this.type = type;
 			this.hasFertilizer = isItemFertilizer(secondaryInput) || isItemFertilizer(primaryInput);
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getPrimaryInput() {
@@ -438,6 +444,10 @@ public class InsolatorManager {
 		public boolean hasFertilizer() {
 
 			return hasFertilizer;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 
