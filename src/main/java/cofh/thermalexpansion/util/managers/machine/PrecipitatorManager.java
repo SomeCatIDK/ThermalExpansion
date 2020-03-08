@@ -60,7 +60,7 @@ public class PrecipitatorManager {
 
 	public static void initialize() {
 
-		addRecipe(DEFAULT_ENERGY, new ItemStack(Items.SNOWBALL, 4, 0), new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME / 2));
+		addRecipe(DEFAULT_ENERGY, new ItemStack(Items.SNOWBALL, 4, 0), new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME / 2), 1);
 		addRecipe(DEFAULT_ENERGY, new ItemStack(Blocks.SNOW), new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME / 2));
 		addRecipe(DEFAULT_ENERGY * 2, new ItemStack(Blocks.ICE), new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME));
 
@@ -90,15 +90,19 @@ public class PrecipitatorManager {
 	}
 
 	/* ADD RECIPES */
-	public static PrecipitatorRecipe addRecipe(int energy, ItemStack output, FluidStack input) {
+	public static PrecipitatorRecipe addRecipe(int energy, ItemStack output, FluidStack input, int requiredTier) {
 
 		if (output.isEmpty() || input == null || energy <= 0 || recipeExists(output)) {
 			return null;
 		}
-		PrecipitatorRecipe recipe = new PrecipitatorRecipe(output, input, energy);
+		PrecipitatorRecipe recipe = new PrecipitatorRecipe(output, input, energy, requiredTier);
 		recipeMap.put(new ItemWrapper(output), recipe);
 		outputList.add(output);
 		return recipe;
+	}
+	
+	public static PrecipitatorRecipe addRecipe(int energy, ItemStack output, FluidStack input) {
+		return addRecipe(energy, output, input, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -113,12 +117,14 @@ public class PrecipitatorManager {
 		final ItemStack output;
 		final FluidStack input;
 		final int energy;
+		final int requiredTier;
 
-		PrecipitatorRecipe(ItemStack output, FluidStack input, int energy) {
+		PrecipitatorRecipe(ItemStack output, FluidStack input, int energy, int requiredTier) {
 
 			this.output = output;
 			this.input = input;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getOutput() {
@@ -134,6 +140,10 @@ public class PrecipitatorManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

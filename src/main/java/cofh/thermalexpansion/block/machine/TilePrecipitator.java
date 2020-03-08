@@ -14,6 +14,7 @@ import cofh.thermalexpansion.block.machine.BlockMachine.Type;
 import cofh.thermalexpansion.gui.client.machine.GuiPrecipitator;
 import cofh.thermalexpansion.gui.container.machine.ContainerPrecipitator;
 import cofh.thermalexpansion.init.TEProps;
+import cofh.thermalexpansion.util.managers.machine.ExtruderManager;
 import cofh.thermalexpansion.util.managers.machine.PrecipitatorManager;
 import cofh.thermalexpansion.util.managers.machine.PrecipitatorManager.PrecipitatorRecipe;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,6 +83,7 @@ public class TilePrecipitator extends TileMachineBase implements ICustomInventor
 	private ItemStack[] outputItem = new ItemStack[2];
 	private int outputTracker;
 	private int index = 0;
+	private int lastIndex = 0;
 	private byte direction = 0;
 
 	private FluidTankCore tank = new FluidTankCore(TEProps.MAX_FLUID_MEDIUM);
@@ -130,6 +132,9 @@ public class TilePrecipitator extends TileMachineBase implements ICustomInventor
 			return true;
 		}
 		if (!inventory[0].isItemEqual(outputItem[0])) {
+			return false;
+		}
+		if (recipe.getRequiredTier() > level) {
 			return false;
 		}
 		return inventory[0].getCount() + outputItem[0].getCount() <= outputItem[0].getMaxStackSize();
@@ -224,8 +229,15 @@ public class TilePrecipitator extends TileMachineBase implements ICustomInventor
 		enableAutoInput = false;
 	}
 
+	int numberOfAttempts = 0;
+	
 	private void setOutput() {
-
+		if (numberOfAttempts > PrecipitatorManager.getRecipeList().length) {
+			// THIS TIER HAS NO RECIPES, THIS SHOULD NOT HAPPEN!
+			ThermalExpansion.LOG.error("There are no available recipes for one of the precipitator tiers!");
+			return;
+		}
+		
 		if (index >= PrecipitatorManager.getOutputListSize()) {
 			index = 0;
 		} else if (index < 0) {
@@ -234,6 +246,18 @@ public class TilePrecipitator extends TileMachineBase implements ICustomInventor
 		outputItem[0] = PrecipitatorManager.getOutput(index);
 		if (!isActive) {
 			outputItem[1] = outputItem[0].copy();
+		}
+		
+		PrecipitatorRecipe recipe = PrecipitatorManager.getRecipe(outputItem[1]);
+		
+		if (recipe.getRequiredTier() > level) {
+			if (lastIndex < index) {
+				index++;
+			}else {
+				index--;
+			}
+			numberOfAttempts++;
+			setOutput();
 		}
 	}
 

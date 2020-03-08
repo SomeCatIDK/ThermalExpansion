@@ -1,5 +1,6 @@
 package cofh.thermalexpansion.plugins.jei.machine.precipitator;
 
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileBrewer;
 import cofh.thermalexpansion.block.machine.TilePrecipitator;
 import cofh.thermalexpansion.plugins.jei.Drawables;
@@ -24,6 +25,8 @@ public class PrecipitatorRecipeWrapper extends BaseRecipeWrapper {
 	/* Recipe */
 	protected List<FluidStack> inputFluids;
 	protected List<ItemStack> outputItems;
+	
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -49,6 +52,7 @@ public class PrecipitatorRecipeWrapper extends BaseRecipeWrapper {
 		outputItems = recipeOutputItems;
 
 		energy = recipe.getEnergy();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_DROP);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(Drawables.PROGRESS_DROP);
@@ -79,6 +83,8 @@ public class PrecipitatorRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 69, 23);
 		speed.draw(minecraft, 34, 40);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 54, 3, 0x808080);
 	}
 
 }
