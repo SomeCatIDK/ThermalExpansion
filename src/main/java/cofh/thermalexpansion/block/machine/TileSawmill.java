@@ -168,6 +168,10 @@ public class TileSawmill extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = SawmillManager.getRecipe(inventory[0]);
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override

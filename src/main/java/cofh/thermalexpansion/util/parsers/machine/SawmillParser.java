@@ -28,6 +28,7 @@ public class SawmillParser extends BaseParser {
 			ItemStack output2 = ItemStack.EMPTY;
 			int energy = defaultEnergy;
 			int chance = 100;
+			int requiredTier = 0;
 
 			/* INPUT */
 			input = parseItemStack(content.get(INPUT));
@@ -53,8 +54,13 @@ public class SawmillParser extends BaseParser {
 			} else if (content.has(ENERGY_MOD)) {
 				energy = content.get(ENERGY_MOD).getAsInt() * defaultEnergy / 100;
 			}
+			
+			/* REQUIRED TIER */
+			if (content.has(REQUIRED_TIER)) {
+				requiredTier = content.get(REQUIRED_TIER).getAsInt();
+			}
 
-			if (SawmillManager.addRecipe(energy, input, output, output2, chance) != null) {
+			if (SawmillManager.addRecipe(energy, input, output, output2, chance, requiredTier) != null) {
 				parseCount++;
 			} else {
 				errorCount++;

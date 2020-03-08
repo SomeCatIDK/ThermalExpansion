@@ -35,6 +35,7 @@ public class SawmillRecipeWrapper extends BaseRecipeWrapper {
 	protected List<FluidStack> outputFluids;
 
 	protected int chance;
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -80,6 +81,7 @@ public class SawmillRecipeWrapper extends BaseRecipeWrapper {
 		outputs = recipeOutputs;
 
 		chance = recipe.getSecondaryOutputChance();
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
 
 		IDrawableStatic fluidDrawable = Drawables.getDrawables(guiHelper).getProgress(Drawables.PROGRESS_ARROW_FLUID);
 		IDrawableStatic progressDrawable = Drawables.getDrawables(guiHelper).getProgressFill(uId.equals(RecipeUidsTE.SAWMILL_TAPPER) ? Drawables.PROGRESS_ARROW_FLUID : Drawables.PROGRESS_ARROW);
@@ -117,6 +119,8 @@ public class SawmillRecipeWrapper extends BaseRecipeWrapper {
 			String dispChance = StringHelper.formatNumber(chance) + "%";
 			minecraft.fontRenderer.drawString(dispChance, 102 - 6 * dispChance.length(), 48, 0x808080);
 		}
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 30, 3, 0x808080);
 	}
 
 }

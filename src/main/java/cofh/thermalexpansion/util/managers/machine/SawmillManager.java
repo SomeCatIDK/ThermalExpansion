@@ -137,14 +137,18 @@ public class SawmillManager {
 	}
 
 	/* ADD RECIPES */
-	public static SawmillRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+	public static SawmillRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int requiredTier) {
 
 		if (input.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || recipeExists(input)) {
 			return null;
 		}
-		SawmillRecipe recipe = new SawmillRecipe(input, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy);
+		SawmillRecipe recipe = new SawmillRecipe(input, primaryOutput, secondaryOutput, secondaryOutput.isEmpty() ? 0 : secondaryChance, energy, requiredTier);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
+	}
+	
+	public static SawmillRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+		return addRecipe(energy, input, primaryOutput, secondaryOutput, secondaryChance, 0);
 	}
 
 	public static SawmillRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput) {
@@ -249,14 +253,16 @@ public class SawmillManager {
 		final ItemStack secondaryOutput;
 		final int secondaryChance;
 		final int energy;
+		final int requiredTier;
 
-		SawmillRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy) {
+		SawmillRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance, int energy, int requiredTier) {
 
 			this.input = input;
 			this.primaryOutput = primaryOutput;
 			this.secondaryOutput = secondaryOutput;
 			this.secondaryChance = secondaryChance;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -282,6 +288,10 @@ public class SawmillManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 
