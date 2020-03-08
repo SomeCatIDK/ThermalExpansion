@@ -146,6 +146,10 @@ public class TileBrewer extends TileMachineBase {
 	protected void getRecipe() {
 
 		curRecipe = BrewerManager.getRecipe(inventory[0], inputTank.getFluid());
+		
+		if (curRecipe.getRequiredTier() > level) {
+			curRecipe = null;
+		}
 	}
 
 	@Override

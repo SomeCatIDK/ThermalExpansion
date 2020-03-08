@@ -219,16 +219,20 @@ public class BrewerManager {
 	}
 
 	/* ADD RECIPES */
-	public static BrewerRecipe addRecipe(int energy, ItemStack input, FluidStack inputFluid, FluidStack outputFluid) {
+	public static BrewerRecipe addRecipe(int energy, ItemStack input, FluidStack inputFluid, FluidStack outputFluid, int requiredTier) {
 
 		if (input.isEmpty() || inputFluid == null || outputFluid == null || energy <= 0 || recipeExists(input, inputFluid)) {
 			return null;
 		}
-		BrewerRecipe recipe = new BrewerRecipe(input, inputFluid, outputFluid, energy);
+		BrewerRecipe recipe = new BrewerRecipe(input, inputFluid, outputFluid, energy, requiredTier);
 		recipeMap.put(asList(convertInput(input).hashCode(), FluidHelper.getFluidHash(inputFluid)), recipe);
 		validationSet.add(convertInput(input));
 		validationFluids.add(inputFluid.getFluid().getName());
 		return recipe;
+	}
+	
+	public static BrewerRecipe addRecipe(int energy, ItemStack input, FluidStack inputFluid, FluidStack outputFluid) {
+		return addRecipe(energy, input, inputFluid, outputFluid, 0);
 	}
 
 	/* REMOVE RECIPES */
@@ -301,13 +305,15 @@ public class BrewerManager {
 		final FluidStack inputFluid;
 		final FluidStack outputFluid;
 		final int energy;
+		final int requiredTier;
 
-		BrewerRecipe(ItemStack input, FluidStack inputFluid, FluidStack outputFluid, int energy) {
+		BrewerRecipe(ItemStack input, FluidStack inputFluid, FluidStack outputFluid, int energy, int requiredTier) {
 
 			this.input = input;
 			this.inputFluid = inputFluid;
 			this.outputFluid = outputFluid;
 			this.energy = energy;
+			this.requiredTier = requiredTier;
 		}
 
 		public ItemStack getInput() {
@@ -328,6 +334,10 @@ public class BrewerManager {
 		public int getEnergy() {
 
 			return energy;
+		}
+		
+		public int getRequiredTier() {
+			return requiredTier;
 		}
 	}
 

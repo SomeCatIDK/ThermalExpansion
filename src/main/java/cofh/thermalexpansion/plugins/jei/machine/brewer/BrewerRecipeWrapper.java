@@ -1,5 +1,6 @@
 package cofh.thermalexpansion.plugins.jei.machine.brewer;
 
+import cofh.core.util.helpers.StringHelper;
 import cofh.thermalexpansion.block.machine.TileBrewer;
 import cofh.thermalexpansion.plugins.jei.Drawables;
 import cofh.thermalexpansion.plugins.jei.JEIPluginTE;
@@ -24,6 +25,8 @@ public class BrewerRecipeWrapper extends BaseRecipeWrapper {
 	protected List<ItemStack> inputItems;
 	protected List<FluidStack> inputFluids;
 	protected List<FluidStack> outputFluids;
+	
+	protected String requiredTier;
 
 	/* Animation */
 	protected IDrawableAnimated fluid;
@@ -60,7 +63,8 @@ public class BrewerRecipeWrapper extends BaseRecipeWrapper {
 		IDrawableStatic energyDrawable = Drawables.getDrawables(guiHelper).getEnergyFill();
 
 		int basePower = TileBrewer.basePower;
-
+		requiredTier = StringHelper.localize("info.thermalexpansion.level." + recipe.getRequiredTier());
+		
 		fluid = guiHelper.createAnimatedDrawable(fluidDrawable, Math.max(10, energy / basePower), StartDirection.LEFT, true);
 		progress = guiHelper.createAnimatedDrawable(progressDrawable, Math.max(10, energy / basePower), StartDirection.LEFT, false);
 		speed = guiHelper.createAnimatedDrawable(speedDrawable, 1000, StartDirection.TOP, true);
@@ -84,6 +88,8 @@ public class BrewerRecipeWrapper extends BaseRecipeWrapper {
 		progress.draw(minecraft, 94, 23);
 		speed.draw(minecraft, 46, 23);
 		energyMeter.draw(minecraft, 2, 8);
+		
+		minecraft.fontRenderer.drawString("Tier: " + requiredTier, 20, 3, 0x808080);
 	}
 
 }

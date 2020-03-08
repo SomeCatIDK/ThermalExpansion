@@ -104,7 +104,7 @@ public class IMCHandler {
 						CentrifugeManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), output, chance, fluid, requiredTier);
 						continue;
 					case ADD_BREWER_RECIPE:
-						BrewerManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(INPUT_2)), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)));
+						BrewerManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(INPUT_2)), FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag(OUTPUT)), requiredTier);
 						continue;
 					case ADD_ENCHANTER_RECIPE:
 						EnchanterManager.addRecipe(nbt.getInteger(ENERGY), getItemStack(nbt, INPUT), getItemStack(nbt, INPUT_2), getItemStack(nbt, OUTPUT), nbt.getInteger(EXPERIENCE), Type.STANDARD);
